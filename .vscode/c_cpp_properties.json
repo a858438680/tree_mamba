@@ -1,0 +1,26 @@
+{
+  "env": {
+    "conda_home": "/home/alan/anaconda3/envs/athena"
+  },
+  "configurations": [
+    {
+      "name": "Linux",
+      "compilerPath": "${conda_home}/bin/nvcc",
+      "includePath": [
+          "${conda_home}/x86_64-conda-linux-gnu/sysroot/usr/include",
+          "${conda_home}/lib/python3.12/site-packages/torch/include",
+          "${conda_home}/lib/python3.12/site-packages/torch/include/torch/csrc/api/include/",
+          "${conda_home}/include/python3.12",
+          "${conda_home}/lib/python3.12/site-packages/nvidia/cuda_runtime/include",
+          "${conda_home}/lib/python3.12/site-packages/nvidia/cuda_nvcc/include/"
+      ],
+      "defines": [],
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "configurationProvider": "ms-vscode.cmake-tools"
+    }
+  ],
+  "version": 4,
+  "enableConfigurationSquiggles": true
+}
+  
