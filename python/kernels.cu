@@ -480,12 +480,14 @@ __global__ void ssm_step_bwd_kernel(
         float wi_grad = Smi_grad * (nSl[i] - nSr[i]);
         atomicAdd(weight_grad + dim_idx * stride_w_grad_d + i * stride_w_grad_n, wi_grad);
         float Sli_grad = Smi_grad * nw[i];
-        if (left_idx >= 0) {
-            ssm_in_grad[left_idx * stride_in_grad_b + dim_idx * stride_in_grad_d + i * stride_in_grad_n] = Sli_grad;
-        }
         float Sri_grad = Smi_grad * (1.f - nw[i]);
-        if (right_idx >= 0) {
-            ssm_in_grad[right_idx * stride_in_grad_b + dim_idx * stride_in_grad_d + i * stride_in_grad_n] = Sri_grad;
+        if (left_idx >= 0) {
+            if (left_idx != right_idx) {
+                ssm_in_grad[left_idx * stride_in_grad_b + dim_idx * stride_in_grad_d + i * stride_in_grad_n] = Sli_grad;
+                ssm_in_grad[right_idx * stride_in_grad_b + dim_idx * stride_in_grad_d + i * stride_in_grad_n] = Sri_grad;
+            } else {
+                ssm_in_grad[left_idx * stride_in_grad_b + dim_idx * stride_in_grad_d + i * stride_in_grad_n] = Sli_grad + Sri_grad;
+            }
         }
         float Bi_grad = dBi_grad * dt2;
         atomicAdd(B_grad + batch_idx * stride_b_grad_b + seq_idx * stride_b_grad_s + i * stride_b_grad_n, Bi_grad);

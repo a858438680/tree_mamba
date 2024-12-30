@@ -24,7 +24,7 @@ def ref_tree_conv(x: torch.Tensor, indices: torch.Tensor, conv):
     selected_x = torch.gather(padded_x, 2, (indices + 1).unsqueeze(1).expand(-1, dim, -1).to(torch.int64))
     y = conv(selected_x)
     y = y.transpose(1, 2)
-    # y = F.silu(y)
+    y = F.silu(y)
     return y
 
 def tree_conv(x, indices, conv):
